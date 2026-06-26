@@ -1,0 +1,56 @@
+name: Construir APK Android
+
+# Genera el APK de "Encuestas Montecristi" automáticamente.
+# Se ejecuta al hacer push a master, o manualmente desde la pestaña Actions.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    env:
+      # Claves PÚBLICAS de Supabase (seguras para el frontend).
+      # Puedes moverlas a Settings → Secrets si lo prefieres.
+      VITE_SUPABASE_URL: https://gjhivncrmfbezmfqmosf.supabase.co
+      VITE_SUPABASE_ANON_KEY: sb_publishable_bqOZTzngmz1iB8JEFqHSbw_JT8Yr8oU
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Preparar Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Compilar la app web (Vite)
+        run: npm run build
+
+      - name: Sincronizar con Capacitor
+        run: npx cap sync android
+
+      - name: Construir APK (debug)
+        run: |
+          cd android
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Subir el APK como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: Encuestas-Montecristi-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

@@ -91,6 +91,33 @@ Puedes verla en Supabase → **Table Editor → responses**.
 
 ---
 
+## 📱 App móvil (APK para encuestadores)
+
+La app está envuelta con **Capacitor** en un WebView nativo para Android. Funciona **offline**
+(captura sin señal y sincroniza con Supabase al recuperar internet) — ideal para los sectores rurales.
+
+### Opción A — Generar el APK automáticamente en GitHub (sin instalar nada) ✅ recomendado
+
+1. Sube los cambios a GitHub (`git push`).
+2. En el repo → pestaña **Actions** → workflow **"Construir APK Android"**.
+3. Espera a que termine (unos minutos) y entra a la ejecución.
+4. En **Artifacts** descarga **`Encuestas-Montecristi-APK`** → dentro está `app-debug.apk`.
+5. Pásalo a los celulares (WhatsApp, cable, Drive). Para instalarlo, el teléfono debe permitir
+   **"Instalar apps de orígenes desconocidos"**.
+
+> También puedes lanzarlo manualmente en **Actions → Construir APK Android → Run workflow**.
+
+### Opción B — Generarlo en tu PC (requiere Android Studio)
+
+```bash
+npm install
+npm run android:sync     # compila la web y la copia al proyecto Android
+npm run android:open     # abre Android Studio → Build > Build APK(s)
+```
+
+> El APK de GitHub es **debug** (firmado de prueba), suficiente para instalar y usar en campo.
+> Para publicarlo en Google Play se necesita un APK/AAB **release** firmado con tu llave.
+
 ## ¿Qué se guarda en PostgreSQL?
 
 - **Toda la configuración** (empresa, proyecto, usuarios, sectores, formulario, tareas) queda en las

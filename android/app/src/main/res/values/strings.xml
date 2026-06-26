@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Encuestas Montecristi</string>
+    <string name="title_activity_main">Encuestas Montecristi</string>
+    <string name="package_name">ec.montecristi.encuestas</string>
+    <string name="custom_url_scheme">ec.montecristi.encuestas</string>
+</resources>

@@ -1,0 +1,8 @@
+{
+  "appId": "ec.montecristi.encuestas",
+  "appName": "Encuestas Montecristi",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": false
+  }
+}
